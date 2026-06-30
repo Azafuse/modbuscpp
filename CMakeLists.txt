@@ -22,6 +22,7 @@ add_library(modbuscpp
   src/pdu.cpp
   src/tcp_link.cpp
   src/client.cpp
+  src/convert.cpp
 )
 
 target_include_directories(modbuscpp PUBLIC
@@ -54,6 +55,7 @@ add_executable(modbuscpp_tests
   tests/test_pdu.cpp
   tests/test_tcp_link.cpp
   tests/test_client.cpp
+  tests/test_convert.cpp
 )
 
 target_link_libraries(modbuscpp_tests PRIVATE modbuscpp doctest)
