@@ -21,6 +21,7 @@ add_library(modbuscpp
   src/crc.cpp
   src/pdu.cpp
   src/tcp_link.cpp
+  src/rtu_link.cpp
   src/client.cpp
   src/convert.cpp
 )
@@ -54,6 +55,7 @@ add_executable(modbuscpp_tests
   tests/test_crc.cpp
   tests/test_pdu.cpp
   tests/test_tcp_link.cpp
+  tests/test_rtu_link.cpp
   tests/test_client.cpp
   tests/test_convert.cpp
 )
