@@ -1,22 +1,19 @@
-cmake_minimum_required(VERSION 3.16...4.0)
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
+cmake_minimum_required(VERSION 3.16)
 project(modbuscpp LANGUAGES CXX)
 
-# C++17 required
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Warnings as errors
 if(MSVC)
   add_compile_options(/W4 /WX)
 else()
   add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 endif()
 
-# Library option: static or shared
 option(MODBUSCPP_SHARED "Build modbuscpp as shared library" OFF)
 
-# Library target
 add_library(modbuscpp
   src/crc.cpp
   src/pdu.cpp
@@ -36,77 +33,49 @@ if(WIN32)
 endif()
 
 if(MODBUSCPP_SHARED)
-  set_target_properties(modbuscpp PROPERTIES
-    POSITION_INDEPENDENT_CODE ON
-  )
+  set_target_properties(modbuscpp PROPERTIES POSITION_INDEPENDENT_CODE ON)
 endif()
 
 # Tests
 enable_testing()
 include(FetchContent)
-FetchContent_Declare(
-  doctest
-  GIT_REPOSITORY https://github.com/doctest/doctest.git
-  GIT_TAG v2.4.11
-)
+FetchContent_Declare(doctest GIT_REPOSITORY https://github.com/doctest/doctest.git GIT_TAG v2.4.11)
 FetchContent_MakeAvailable(doctest)
 
 add_executable(modbuscpp_tests
   tests/test_crc.cpp
   tests/test_pdu.cpp
   tests/test_tcp_link.cpp
-  tests/test_rtu_link.cpp
   tests/test_client.cpp
   tests/test_convert.cpp
+  tests/test_rtu_link.cpp
 )
-
 target_link_libraries(modbuscpp_tests PRIVATE modbuscpp doctest)
 target_include_directories(modbuscpp_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-
+if(WIN32)
+  target_link_libraries(modbuscpp_tests PRIVATE ws2_32)
+endif()
 add_test(NAME modbuscpp_tests COMMAND modbuscpp_tests)
 
-# CLI tool
-add_executable(modbus_tool
-  tools/modbus_tool.cpp
-)
+add_executable(modbus_tool tools/modbus_tool.cpp)
 target_link_libraries(modbus_tool PRIVATE modbuscpp)
 target_include_directories(modbus_tool PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 if(WIN32)
   target_link_libraries(modbus_tool PRIVATE ws2_32)
 endif()
 
-# Benchmark tool
-add_executable(modbus_bench
-  tools/modbus_bench.cpp
-)
+add_executable(modbus_bench tools/modbus_bench.cpp)
 target_link_libraries(modbus_bench PRIVATE modbuscpp)
 target_include_directories(modbus_bench PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 if(WIN32)
   target_link_libraries(modbus_bench PRIVATE ws2_32)
 endif()
 
-# GUI tool (Qt6 Widgets)
 set(CMAKE_AUTOMOC ON)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
-add_executable(modbus_gui
-  tools/modbus_gui.cpp
-)
+add_executable(modbus_gui tools/modbus_gui.cpp)
 target_link_libraries(modbus_gui PRIVATE modbuscpp Qt6::Widgets)
 target_include_directories(modbus_gui PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 if(WIN32)
   target_link_libraries(modbus_gui PRIVATE ws2_32)
 endif()
-# Auto-deploy Qt and MinGW DLLs after GUI build
-add_custom_command(TARGET modbus_gui POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    \"C:/msys64/mingw64/bin/libgcc_s_seh-1.dll\"
-    \"$<TARGET_FILE_DIR:modbus_gui>\"
-  COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    \"C:/msys64/mingw64/bin/libwinpthread-1.dll\"
-    \"$<TARGET_FILE_DIR:modbus_gui>\"
-  COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    \"C:/msys64/mingw64/bin/libstdc++-6.dll\"
-    \"$<TARGET_FILE_DIR:modbus_gui>\"
-  COMMAND windeployqt \"$<TARGET_FILE:modbus_gui>\" --no-translations
-  COMMENT \"Deploying Qt6 + MinGW DLLs...\"
-)
