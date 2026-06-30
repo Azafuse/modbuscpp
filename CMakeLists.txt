@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.16...4.0)
 project(modbuscpp LANGUAGES CXX)
 
 # C++17 required
@@ -83,4 +83,16 @@ target_link_libraries(modbus_bench PRIVATE modbuscpp)
 target_include_directories(modbus_bench PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 if(WIN32)
   target_link_libraries(modbus_bench PRIVATE ws2_32)
+endif()
+
+# GUI tool (Qt6 Widgets)
+set(CMAKE_AUTOMOC ON)
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
+add_executable(modbus_gui
+  tools/modbus_gui.cpp
+)
+target_link_libraries(modbus_gui PRIVATE modbuscpp Qt6::Widgets)
+target_include_directories(modbus_gui PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+if(WIN32)
+  target_link_libraries(modbus_gui PRIVATE ws2_32)
 endif()
