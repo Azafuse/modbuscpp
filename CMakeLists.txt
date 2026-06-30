@@ -96,3 +96,17 @@ target_include_directories(modbus_gui PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/includ
 if(WIN32)
   target_link_libraries(modbus_gui PRIVATE ws2_32)
 endif()
+# Auto-deploy Qt and MinGW DLLs after GUI build
+add_custom_command(TARGET modbus_gui POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    \"C:/msys64/mingw64/bin/libgcc_s_seh-1.dll\"
+    \"$<TARGET_FILE_DIR:modbus_gui>\"
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    \"C:/msys64/mingw64/bin/libwinpthread-1.dll\"
+    \"$<TARGET_FILE_DIR:modbus_gui>\"
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    \"C:/msys64/mingw64/bin/libstdc++-6.dll\"
+    \"$<TARGET_FILE_DIR:modbus_gui>\"
+  COMMAND windeployqt \"$<TARGET_FILE:modbus_gui>\" --no-translations
+  COMMENT \"Deploying Qt6 + MinGW DLLs...\"
+)
