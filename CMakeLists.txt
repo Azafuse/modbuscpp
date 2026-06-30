@@ -74,3 +74,13 @@ target_include_directories(modbus_tool PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/inclu
 if(WIN32)
   target_link_libraries(modbus_tool PRIVATE ws2_32)
 endif()
+
+# Benchmark tool
+add_executable(modbus_bench
+  tools/modbus_bench.cpp
+)
+target_link_libraries(modbus_bench PRIVATE modbuscpp)
+target_include_directories(modbus_bench PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+if(WIN32)
+  target_link_libraries(modbus_bench PRIVATE ws2_32)
+endif()
