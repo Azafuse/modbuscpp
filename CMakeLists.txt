@@ -64,3 +64,13 @@ target_link_libraries(modbuscpp_tests PRIVATE modbuscpp doctest)
 target_include_directories(modbuscpp_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_test(NAME modbuscpp_tests COMMAND modbuscpp_tests)
+
+# CLI tool
+add_executable(modbus_tool
+  tools/modbus_tool.cpp
+)
+target_link_libraries(modbus_tool PRIVATE modbuscpp)
+target_include_directories(modbus_tool PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+if(WIN32)
+  target_link_libraries(modbus_tool PRIVATE ws2_32)
+endif()
