@@ -1,0 +1,12 @@
+build/
+*.o
+*.obj
+*.exe
+*.a
+*.lib
+*.dll
+*.so
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
