@@ -19,6 +19,7 @@ option(MODBUSCPP_SHARED "Build modbuscpp as shared library" OFF)
 # Library target
 add_library(modbuscpp
   src/crc.cpp
+  src/pdu.cpp
 )
 
 target_include_directories(modbuscpp PUBLIC
@@ -44,6 +45,7 @@ FetchContent_MakeAvailable(doctest)
 
 add_executable(modbuscpp_tests
   tests/test_crc.cpp
+  tests/test_pdu.cpp
 )
 
 target_link_libraries(modbuscpp_tests PRIVATE modbuscpp doctest)
