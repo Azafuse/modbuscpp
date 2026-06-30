@@ -20,12 +20,17 @@ option(MODBUSCPP_SHARED "Build modbuscpp as shared library" OFF)
 add_library(modbuscpp
   src/crc.cpp
   src/pdu.cpp
+  src/tcp_link.cpp
 )
 
 target_include_directories(modbuscpp PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
+
+if(WIN32)
+  target_link_libraries(modbuscpp PUBLIC ws2_32)
+endif()
 
 if(MODBUSCPP_SHARED)
   set_target_properties(modbuscpp PROPERTIES
@@ -46,6 +51,7 @@ FetchContent_MakeAvailable(doctest)
 add_executable(modbuscpp_tests
   tests/test_crc.cpp
   tests/test_pdu.cpp
+  tests/test_tcp_link.cpp
 )
 
 target_link_libraries(modbuscpp_tests PRIVATE modbuscpp doctest)
