@@ -48,7 +48,7 @@ class ModbusTestServer:
 
     def _handle(self, conn):
         try:
-            conn.settimeout(5)
+            conn.settimeout(300)
             while self.running:
                 hdr = self._recv_all(conn, 7)
                 if not hdr: break

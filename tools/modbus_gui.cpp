@@ -99,9 +99,11 @@ private slots:
   void onWrite();
   void onPoll();
   void onPollTick();
-  void onR(const QString&s){out_->append(s);}
-  void onW(const QString&s){out_->append(s);}
+  void onR(const QString&s){out_->append(s);if(s.startsWith("Err:")&&client_&&!client_->connected()){setDisconnected();}}
+  void onW(const QString&s){out_->append(s);if(s.startsWith("Err:")&&client_&&!client_->connected()){setDisconnected();}}
 private:
+  void setDisconnected(){statusLbl_->setText("Disconnected");connBtn_->setText("Connect");}
+  bool connected_{false};
   QComboBox*typeCB_,*rFc_,*wFc_,*pFc_;QLineEdit*hostEd_,*portEd_,*wV_;
   QSpinBox*rA_,*rQ_,*wA_,*pA_,*pMs_;QPushButton*connBtn_,*readBtn_,*writeBtn_,*pollBtn_;
   QLabel*statusLbl_;QTextEdit*out_;std::unique_ptr<ModbusClient>client_;
@@ -134,7 +136,7 @@ void MainWindow::onPoll(){if(polling_){pollTm_.stop();polling_=false;pollBtn_->s
   pType_=pFc_->currentText();pAddr_=pA_->value();polling_=true;pollTm_.start(pMs_->value());pollBtn_->setText("Stop Poll");
 }
 
-void MainWindow::onPollTick(){if(!client_||!polling_)return;
+void MainWindow::onPollTick(){if(!client_||!polling_)return;if(!client_->connected()){pollTm_.stop();polling_=false;pollBtn_->setText("Start Poll");setDisconnected();out_->append("-Connection lost-");return;}
   if(pType_=="HR")QMetaObject::invokeMethod(worker_,"doReadHR",Qt::QueuedConnection,Q_ARG(uint16_t,pAddr_),Q_ARG(uint16_t,1));
   else QMetaObject::invokeMethod(worker_,"doReadCoils",Qt::QueuedConnection,Q_ARG(uint16_t,pAddr_),Q_ARG(uint16_t,1));
 }
