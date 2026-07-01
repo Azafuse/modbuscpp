@@ -73,7 +73,7 @@ endif()
 
 set(CMAKE_AUTOMOC ON)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
-add_executable(modbus_gui tools/modbus_gui.cpp)
+add_executable(modbus_gui tools/modbus_gui.cpp tools/connection_panel.cpp)
 target_link_libraries(modbus_gui PRIVATE modbuscpp Qt6::Widgets)
 target_include_directories(modbus_gui PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 if(WIN32)

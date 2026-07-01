@@ -124,8 +124,8 @@ TEST_CASE("TcpLink: MBAP framing verification") {
     REQUIRE(parsed.ok());
     auto regs = parsed.value();
     REQUIRE(regs.size() == 3);
-    CHECK(regs[0] == 0x022B);
-    CHECK(regs[1] == 0x0001);
+    CHECK(regs[0] == 111);
+    CHECK(regs[1] == 1);
     CHECK(regs[2] == 0x0064);
 
     link.close();
