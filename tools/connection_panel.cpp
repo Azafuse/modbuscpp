@@ -1,7 +1,7 @@
 #include "connection_panel.hpp"
 #include <chrono>
 
-// â”€â”€ ModbusWorker â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ ModbusWorker ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
 
 void ModbusWorker::doReadHR(uint16_t addr, uint16_t qty) {
   if (!client_) return;
@@ -33,7 +33,7 @@ void ModbusWorker::doWriteSC(uint16_t addr, bool on) {
   emit writeDone(e.ok() ? "OK" : QString::fromStdString(e.message));
 }
 
-// â”€â”€ ConnectionPanel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ ConnectionPanel ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
 
 ConnectionPanel::ConnectionPanel(QWidget* parent) : QWidget(parent) {
   auto* L = new QVBoxLayout(this);
@@ -65,7 +65,6 @@ ConnectionPanel::ConnectionPanel(QWidget* parent) : QWidget(parent) {
   pl->addWidget(new QLabel("ms:")); pMs_ = new QSpinBox(); pMs_->setRange(50,10000); pMs_->setValue(500); pl->addWidget(pMs_);
   pollBtn_ = new QPushButton("Start Poll"); pl->addWidget(pollBtn_); L->addWidget(pg);
 
-  out_ = new QTextEdit(); out_->setReadOnly(true); L->addWidget(out_);
   worker_ = new ModbusWorker(); thr_ = new QThread(this); worker_->moveToThread(thr_); thr_->start();
   pollTimer_ = new QTimer(this);
 
@@ -81,7 +80,7 @@ ConnectionPanel::~ConnectionPanel() { stopPoll(); disconnect(); thr_->quit(); th
 
 QString ConnectionPanel::title() const { return typeCB_->currentText()+":"+hostEd_->text()+":"+portEd_->text(); }
 
-void ConnectionPanel::disconnect() { if(client_&&client_->connected())client_->disconnect(); client_.reset(); setDisconnected(); out_->append("-Disconnected-"); }
+void ConnectionPanel::disconnect() { if(client_&&client_->connected())client_->disconnect(); client_.reset(); setDisconnected(); log("-Disconnected-"); }
 
 void ConnectionPanel::stopPoll() { polling_=false; pollTimer_->stop(); pollBtn_->setText("Start Poll"); }
 
@@ -94,12 +93,20 @@ void ConnectionPanel::onConn() {
   else{modbus::RtuConfig c;c.device=hostEd_->text().toStdString();c.baud=portEd_->text().toUInt();client_=std::make_unique<modbus::ModbusClient>(std::make_unique<modbus::RtuLink>(c));}
   client_->setUnitId((uint8_t)unitSpin_->value());
   auto e=client_->connect();
-  if(e.ok()){statusLbl_->setText("Connected");connBtn_->setText("Disconnect");out_->append("-Connected-");worker_->setClient(client_.get());}
-  else{out_->append("Err: "+QString::fromStdString(e.message));client_.reset();}
+  if(e.ok()){statusLbl_->setText("Connected");connBtn_->setText("Disconnect");log("-Connected-");worker_->setClient(client_.get());}
+  else{log("Err: "+QString::fromStdString(e.message));client_.reset();}
 }
 
+
+void ConnectionPanel::updateTitle() { QString t = typeCB_->currentText() + ":" + hostEd_->text() + ":" + portEd_->text(); if (QWidget* p = parentWidget()) { QTabWidget* tw = qobject_cast<QTabWidget*>(p->parentWidget()); if (tw) { int i = tw->indexOf(this); if (i>=0) tw->setTabText(i, t); } } }
+
+QString ConnectionPanel::connLabel() const { return "[" + typeCB_->currentText() + ":" + hostEd_->text() + ":" + portEd_->text() + "#u" + QString::number(unitSpin_->value()) + "]"; }
+
+void ConnectionPanel::log(const QString& text) { emit logLine(connId_, QDateTime::currentDateTime().toString("hh:mm:ss.zzz"), text); }
+
+
 void ConnectionPanel::onRead() {
-  if(!client_||!client_->connected()){out_->append("Not connected");return;}
+  if(!client_||!client_->connected()){log("Not connected");return;}
   client_->setUnitId((uint8_t)unitSpin_->value());
   auto fc=rFc_->currentText();uint16_t a=rA_->value(),q=rQ_->value();
   if(fc=="HR"||fc=="IR")QMetaObject::invokeMethod(worker_,"doReadHR",Qt::QueuedConnection,Q_ARG(uint16_t,a),Q_ARG(uint16_t,q));
@@ -107,7 +114,7 @@ void ConnectionPanel::onRead() {
 }
 
 void ConnectionPanel::onWrite() {
-  if(!client_||!client_->connected()){out_->append("Not connected");return;}
+  if(!client_||!client_->connected()){log("Not connected");return;}
   client_->setUnitId((uint8_t)unitSpin_->value());
   uint16_t a=wA_->value();
   if(wFc_->currentText()=="SR")QMetaObject::invokeMethod(worker_,"doWriteSR",Qt::QueuedConnection,Q_ARG(uint16_t,a),Q_ARG(uint16_t,(uint16_t)wV_->text().toUInt(nullptr,16)));
@@ -115,19 +122,19 @@ void ConnectionPanel::onWrite() {
 }
 
 void ConnectionPanel::onPoll() {
-  if(polling_){stopPoll();out_->append("-Poll stopped-");return;}
-  if(!client_||!client_->connected()){out_->append("Not connected");return;}
+  if(polling_){stopPoll();log("-Poll stopped-");return;}
+  if(!client_||!client_->connected()){log("Not connected");return;}
   pType_=pFc_->currentText();pAddr_=pA_->value();polling_=true;pollTimer_->start(pMs_->value());pollBtn_->setText("Stop Poll");
 }
 
 void ConnectionPanel::onPollTick() {
   if(!client_||!polling_)return;
-  if(!client_->connected()){stopPoll();setDisconnected();out_->append("-Connection lost-");return;}
+  if(!client_->connected()){stopPoll();setDisconnected();log("-Connection lost-");return;}
   client_->setUnitId((uint8_t)unitSpin_->value());
   if(pType_=="HR")QMetaObject::invokeMethod(worker_,"doReadHR",Qt::QueuedConnection,Q_ARG(uint16_t,pAddr_),Q_ARG(uint16_t,1));
   else QMetaObject::invokeMethod(worker_,"doReadCoils",Qt::QueuedConnection,Q_ARG(uint16_t,pAddr_),Q_ARG(uint16_t,1));
 }
 
-void ConnectionPanel::onR(const QString& s){out_->append(s);if(s.startsWith("Err:")&&client_&&!client_->connected())setDisconnected();}
+void ConnectionPanel::onR(const QString& s){log(s);if(s.startsWith("Err:")&&client_&&!client_->connected())setDisconnected();}
 
-void ConnectionPanel::onW(const QString& s){out_->append(s);if(s.startsWith("Err:")&&client_&&!client_->connected())setDisconnected();}
+void ConnectionPanel::onW(const QString& s){log(s);if(s.startsWith("Err:")&&client_&&!client_->connected())setDisconnected();}

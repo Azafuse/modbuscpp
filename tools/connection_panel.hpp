@@ -10,8 +10,9 @@
 #include <QPushButton>
 #include <QComboBox>
 #include <QLabel>
-#include <QTextEdit>
 #include <QSpinBox>
+#include <QDateTime>
+#include <QTabWidget>
 #include <QTimer>
 #include <QThread>
 #include <QMetaObject>
@@ -39,10 +40,14 @@ public:
   explicit ConnectionPanel(QWidget* parent = nullptr);
   ~ConnectionPanel();
   QString title() const;
+  int connId() const { return connId_; }
+  QString connLabel() const;
+  void setConnId(int id) { connId_ = id; connLabel_ = QString::number(id); updateTitle(); }
   void disconnect();
   void stopPoll();
 signals:
   void closeRequested();
+  void logLine(int connId, const QString& timestamp, const QString& text);
 private slots:
   void onConn();
   void onRead();
@@ -53,12 +58,15 @@ private slots:
   void onW(const QString& s);
 private:
   void setDisconnected();
+  void updateTitle();
+  void log(const QString& text);
   QComboBox *typeCB_,*rFc_,*wFc_,*pFc_;
   QLineEdit *hostEd_,*portEd_,*wV_;
   QSpinBox *rA_,*rQ_,*wA_,*pA_,*pMs_,*unitSpin_;
   QPushButton *connBtn_,*readBtn_,*writeBtn_,*pollBtn_;
-  QLabel* statusLbl_; QTextEdit* out_;
+  QLabel* statusLbl_;
   std::unique_ptr<modbus::ModbusClient> client_;
   ModbusWorker* worker_; QThread* thr_; QTimer* pollTimer_;
   bool polling_=false; QString pType_; uint16_t pAddr_=0;
+  int connId_ = 0; QString connLabel_ = "0";
 };
