@@ -6,6 +6,7 @@
 #include <chrono>
 #include <memory>
 #include <mutex>
+#include <string>
 #include <vector>
 
 namespace modbus {
@@ -17,10 +18,14 @@ public:
   Error connect();
   void  disconnect();
   bool  connected() const;
+  bool  isReconnecting() const;
 
   void setUnitId(uint8_t id);
   void setTimeout(std::chrono::milliseconds t);
   void setRetries(int n);
+  void setAutoReconnect(bool on);
+  void setReconnectBackoff(std::chrono::milliseconds minMs,
+                           std::chrono::milliseconds maxMs);
 
   // Reads
   Result<std::vector<bool>>     readCoils(uint16_t start, uint16_t count);
@@ -40,6 +45,11 @@ private:
   uint8_t                      unitId_  = 1;
   std::chrono::milliseconds    timeout_{1000};
   int                          retries_ = 0;
+  bool                         autoReconnect_ = true;
+  bool                         intentionalDisconnect_ = false;
+  std::chrono::milliseconds    reconnectMinMs_{100};
+  std::chrono::milliseconds    reconnectMaxMs_{5000};
+  bool                         reconnecting_ = false;
 
   // Internal: execute one transaction with retry on Transport errors
   Result<Pdu> transactWithRetry(const Pdu& request);
